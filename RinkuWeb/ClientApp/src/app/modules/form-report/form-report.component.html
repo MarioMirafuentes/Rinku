@@ -1,0 +1,57 @@
+<h3>VISTA DE NOMINAS</h3>
+<table class="table table-hover" style="font-size:12px;">
+    <thead>
+        <tr>
+            <th>
+                Num. Empleado
+            </th>
+            <th>
+                Nombre de Empleado
+            </th>
+            <th>
+                Periodo de pago
+            </th>
+            <th>
+                Bono Entregas
+            </th>
+            <th>
+                Bono por empleado
+
+            </th>
+            <th>
+                Horas Trabajadas
+            </th>
+            <th>
+                Retenciones
+            </th>
+            <th>
+                Vales
+            </th>
+            <th>
+                Sueldo Bruto
+            </th>
+            <th>
+                Sueldo Neto
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="
+      let q of query">
+            <td>{{ q.numEmpleado }}</td>
+            <td>{{ q.nombre }}</td>
+            <td>{{ q.periodo }}</td>
+            <td>{{ q.bonoentregas|currency}}</td>
+            <td>{{ q.bonotipoempleado|currency }}</td>
+            <td>{{ q.horastrabajadas| number }}</td>
+            <td>{{ q.reteciones| currency }}</td>
+            <td>{{ q.vales | currency}}</td>
+            <td>{{ q.sueldobruto| currency }}</td>
+            <td>{{ q.sueldonet| currency }}</td>
+
+
+
+        </tr>
+    </tbody>
+</table>

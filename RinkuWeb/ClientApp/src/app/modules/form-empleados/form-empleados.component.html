@@ -1,0 +1,36 @@
+<form [formGroup]="FormEmpleado" >
+
+    
+        <div class="form-group col-md-2">
+            <label>Clave :</label>
+            <input  type="text" class="form-control form-control-sm" readonly formControlName="CvEmpleado" />
+        </div>
+        <div class="form-group col-md-4">
+            <label>Numero de Empleado :</label>
+            <input #num (keyup)="GetRepet(num)" type="text" class="form-control form-control-sm" formControlName="NumeroEmpleado" />
+        </div>
+
+        <div class="form-group col-md-8">
+            <label>Nombre de Empleado :</label>
+            <input type="text" class="form-control form-control-sm"  formControlName="Nombre" />
+        </div>
+
+
+
+<button (click)="SetSaveEmpleado()" style="margin:1rem;">Guardar</button>      
+<button style="margin:1rem;">Borrar</button>      
+<button style="margin:1rem;">Salir</button>      
+
+
+</form>
+<div class="container">
+    <h3>LISTADO DE EMPLEADOS</h3>
+
+    <ag-grid-angular style="width: 50rem; height: 25rem;" class="ag-theme-alpine"
+    [rowData]="ListEmpleados" [columnDefs]="columsDefs"
+  [groupDisplayType]="multiple" [rowSelection]="rowSelection"
+  
+    (selectionChanged)="onSelectionChanged($event)"> 
+  </ag-grid-angular>
+
+</div>
