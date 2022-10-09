@@ -30,7 +30,7 @@ export class FormMovimientosComponent implements OnInit {
       CvEmpleado: new FormControl(0,),
       CvPeriodo: new FormControl(0,),
       Descripcion: new FormControl("",),
-      Hdes: new FormControl(0,),
+      HDesc: new FormControl(0,),
 
     })
   }
@@ -47,7 +47,6 @@ export class FormMovimientosComponent implements OnInit {
   SetSaveMovimiento() {
     this.movimientos = this.FormMovimientos.value;
     this.movimientos = this.CoonvertNumber(this.movimientos);
-
     this.rinkuService.SetNewMoviemiento(this.movimientos).subscribe(res => {
       if (Number(res) == 1) {
         window.alert("El movimiento fue agreagado correctamente");
