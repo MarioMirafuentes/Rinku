@@ -52,11 +52,11 @@ export class RinkuService {
 
   }  
 
-  public SetNewMoviemiento(movimiento:Movimientos):Observable<Blob>{
+  public SetNewMoviemiento(movimiento:Movimientos){
   
     var url = this.urlBase + "Api/SetNewMoviemiento/";
  
-    return this.http.post(url,movimiento,{responseType:'blob'});
+    return this.http.post(url,movimiento);
 
   }
 
@@ -65,7 +65,19 @@ export class RinkuService {
     var url = this.urlBase + "Api/QueryNominas/";
     return this.http.get(url);
 
-  }  
+  } 
+  public SetRemoveEmpleado(cv){
+
+    var url = this.urlBase + "Api/SetRemoveEmpleado/";
+    return this.http.get(url+cv);
+
+  }   
+  public SetRemoveMovimiento(cv){
+
+    var url = this.urlBase + "Api/SetRemoveMovimiento/";
+    return this.http.get(url+cv);
+
+  }   
 
 }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from "@angular/forms";
-import { ColDef, GridApi, } from 'ag-grid-community';
+
 import { RinkuService } from '../../services/rinku.service';
 import { Empleados } from '../../rinkuClass/empleados';
 
@@ -10,15 +10,8 @@ import { Empleados } from '../../rinkuClass/empleados';
   styleUrls: ['./form-empleados.component.css']
 })
 export class FormEmpleadosComponent implements OnInit {
-  columsDefs: ColDef[] = [
-    { headerName: 'CV', field: 'cvEmpleado', sortable: true, filter: true, width: 200, checkboxSelection: true, headerCheckboxSelection: true, },
-    { headerName: 'Numero de Empleado', field: 'numeroEmpleado', sortable: true, filter: true, width: 200 },
-    { headerName: 'Nombre', field: 'nombre', sortable: true, filter: true, width: 400 },
 
-  ]
-  private gridApi!: GridApi;
-  public rowSelection = 'single';
-  public multiple = 'single';
+
   FormEmpleado: FormGroup;
   ListEmpleados: Array<Empleados>
   constructor(private rinkuService: RinkuService,
@@ -51,7 +44,7 @@ if (Number(res)==1) {
 
     });
 
-    this.ngOnInit()
+    this.GetAllEmpleado()
     this.FormEmpleado.reset()
   }
   GetAllEmpleado() {
@@ -60,10 +53,10 @@ if (Number(res)==1) {
     this.rinkuService.GetAllEmpleado().subscribe(res => { this.ListEmpleados = res });
   }
 
-  onSelectionChanged(event) {
-    let data = event.api.getSelectedRows();
+  onSelectionChanged(cvEmpleado) {
+   
 
-    this.rinkuService.GetEmpleado(data[0].cvEmpleado).subscribe(res => {
+    this.rinkuService.GetEmpleado(Number(cvEmpleado)).subscribe(res => {
       this.FormEmpleado.controls["Nombre"].setValue(res.nombre)
       this.FormEmpleado.controls["NumeroEmpleado"].setValue(res.numeroEmpleado)
       this.FormEmpleado.controls["CvEmpleado"].setValue(res.cvEmpleado)
@@ -78,6 +71,17 @@ if (Number(res)==1) {
       }
 
     })
+  }
+
+  SetDelEmpleado(num) {
+
+    this.rinkuService.SetRemoveEmpleado(num).subscribe(res => {
+      if (res > 0) {
+        window.alert("Se elimino el registro.");
+      }
+
+    })
+    this.GetAllEmpleado();
   }
 }
 

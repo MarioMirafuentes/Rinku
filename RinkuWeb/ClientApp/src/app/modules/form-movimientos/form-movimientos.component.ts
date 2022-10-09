@@ -48,7 +48,14 @@ export class FormMovimientosComponent implements OnInit {
     this.movimientos=this.FormMovimientos.value;
     this.movimientos=this.CoonvertNumber(this.movimientos);
 
-this.rinkuService.SetNewMoviemiento(this.movimientos).subscribe(res=>{});
+this.rinkuService.SetNewMoviemiento(this.movimientos).subscribe(res=>{
+  if (Number(res)==1) {
+    window.alert("El empleado fue agreagado correctamente");
+  
+  }else{
+    window.alert("El empleado no se agrego")
+  }
+});
     
 
   }
