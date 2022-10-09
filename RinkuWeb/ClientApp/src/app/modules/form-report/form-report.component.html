@@ -9,6 +9,9 @@
                 Nombre de Empleado
             </th>
             <th>
+                Rol Ejecutado
+            </th>
+            <th>
                 Periodo de pago
             </th>
             <th>
@@ -44,6 +47,8 @@
       let q of query">
             <td>{{ q.numEmpleado }}</td>
             <td>{{ q.nombre }}</td>
+
+            <td>{{ q.puesto }}</td>
             <td>{{ q.periodo }}</td>
             <td>{{ q.bonoentregas|currency}}</td>
             <td>{{ q.bonotipoempleado|currency }}</td>
@@ -54,8 +59,8 @@
             <td>{{ q.sueldonet| currency }}</td>
 
             <td>
-                <i  class="glyphicon glyphicon-trash gi-2x"></i>
-                    
+                <i (click)="SetDeleteNomina(q.cvNomina)" class="glyphicon glyphicon-trash gi-2x"></i>
+
             </td>
 
         </tr>

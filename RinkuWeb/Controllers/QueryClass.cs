@@ -6,7 +6,7 @@ namespace RinkuWeb.Controllers
         public QueryClass()
         {
         }
-
+        public int cvNomina { get; set; }
         public string numEmpleado { get; set; }
         public string nombre { get; set; }
         public string periodo { get; set; }
@@ -18,5 +18,6 @@ namespace RinkuWeb.Controllers
        public decimal vales { get; set; }
         public decimal sueldobruto { get; set; }
         public decimal sueldonet { get; set; }
+        public string puesto { get; set; }
     }
 }

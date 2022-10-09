@@ -17,15 +17,15 @@ namespace RinkuWeb.Controllers
         {
             try
             {
-                using (RinkuContext db=new RinkuContext())
+                using (RinkuContext db = new RinkuContext())
                 {
-                    if (empleado.CvEmpleado>0)
+                    if (empleado.CvEmpleado > 0)
                     {
                         var empleadodb = db.Empleados.Where(x => x.CvEmpleado == empleado.CvEmpleado).FirstOrDefault();
                         empleadodb = empleado;
                         db.SaveChanges();
                         return 1;
-                         
+
                     }
                     else
                     {
@@ -34,7 +34,7 @@ namespace RinkuWeb.Controllers
                         return 1;
                     }
 
-                    
+
                 }
             }
             catch (Exception ex)
@@ -50,7 +50,7 @@ namespace RinkuWeb.Controllers
         {
             try
             {
-                using (RinkuContext db=new RinkuContext())
+                using (RinkuContext db = new RinkuContext())
                 {
                     List<Empleado> empleados = db.Empleados.ToList();
                     return empleados;
@@ -70,7 +70,7 @@ namespace RinkuWeb.Controllers
             {
                 using (RinkuContext db = new RinkuContext())
                 {
-                    Empleado empleado = db.Empleados.Where(x=>x.CvEmpleado==cv).First();
+                    Empleado empleado = db.Empleados.Where(x => x.CvEmpleado == cv).First();
                     return empleado;
                 }
             }
@@ -100,6 +100,26 @@ namespace RinkuWeb.Controllers
 
         }
 
+        [HttpGet]
+        [Route("Api/SetRemoveEmpleado/{cv}")]
+        public int SetRemoveEmpleado(int cv)
+        {
+            try
+            {
+                using (RinkuContext db = new RinkuContext())
+                {
+                    db.Empleados.RemoveRange(db.Empleados.Where(x => x.CvEmpleado == cv));
+                    db.SaveChanges();
+                    return 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+
+        }
+
 
         //----------------------------------------------------------
         [HttpPost]
@@ -110,15 +130,15 @@ namespace RinkuWeb.Controllers
             {
                 using (RinkuContext db = new RinkuContext())
                 {
-              
-                        db.Movimientos.Add(movimiento);
-                        db.SaveChanges();
 
-                        var nomina = SetCalculate(movimiento);
-                        db.Nominas.Add(nomina);
-                        db.SaveChanges();
+                    db.Movimientos.Add(movimiento);
+                    db.SaveChanges();
 
-                        return 1;
+                    var nomina = SetCalculate(movimiento);
+                    db.Nominas.Add(nomina);
+                    db.SaveChanges();
+
+                    return 1;
 
                 }
             }
@@ -129,23 +149,6 @@ namespace RinkuWeb.Controllers
 
         }
 
-        [HttpGet]
-        [Route("Api/GetallMoviemiento")]
-        public IEnumerable<Movimiento> GetallMoviemiento()
-        {
-            try
-            {
-                using (RinkuContext db = new RinkuContext())
-                {
-                    List<Movimiento> movimientos = db.Movimientos.ToList();
-                    return movimientos;
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
 
         [HttpGet]
         [Route("Api/GetMovimiento/{cv}")]
@@ -198,41 +201,9 @@ namespace RinkuWeb.Controllers
 
         }
 
-        [HttpGet]
-        [Route("Api/GetAllNomina")]
-        public IEnumerable<Nomina> GetAllNomina()
-        {
-            try
-            {
-                using (RinkuContext db = new RinkuContext())
-                {
-                    List<Nomina> nominas = db.Nominas.ToList();
-                    return nominas;
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
 
-        [HttpGet]
-        [Route("Api/GetNomina/{cv}")]
-        public Nomina GetNomina(int cv)
-        {
-            try
-            {
-                using (RinkuContext db = new RinkuContext())
-                {
-                    Nomina nomina = db.Nominas.Where(x => x.CvNomina == cv).First();
-                    return nomina;
-                }
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
+
+
 
 
 
@@ -281,11 +252,11 @@ namespace RinkuWeb.Controllers
                 var dias = 6;
                 var hora = 8;
                 var sueldohora = 30;
-                var TotalHoras = (hora * dias * 4)-movimiento.HDesc;
+                var TotalHoras = (hora * dias * 4) - movimiento.HDesc;
                 var SueldoTotal = TotalHoras * sueldohora;
                 var bonoentregas = movimiento.NumEntregas * 5;
                 var bonopuesto = GetTabuladorBono(movimiento.CvTipoEmpleado) * TotalHoras;
-                var sueldobruto = SueldoTotal + bonoentregas  +bonopuesto;
+                var sueldobruto = SueldoTotal + bonoentregas + bonopuesto;
                 var reteciones = SetRetencionISR((decimal)sueldobruto);
                 var sueldoneto = sueldobruto - reteciones;
                 var valesdespensa = (double)sueldoneto * 0.04;
@@ -297,15 +268,15 @@ namespace RinkuWeb.Controllers
                     SueldoBruto = sueldobruto,
                     Retenciones = reteciones,
                     SueldoNeto = sueldoneto,
-                    ValesDespensa= (decimal?)valesdespensa,
-                    CvPeriodo=movimiento.CvPeriodo,
-                    CvMovimiento=movimiento.CvMovimiento,
-                    CvNomina=0,
-                    HorasTrabajadas=TotalHoras
+                    ValesDespensa = (decimal?)valesdespensa,
+                    CvPeriodo = movimiento.CvPeriodo,
+                    CvMovimiento = movimiento.CvMovimiento,
+                    CvNomina = 0,
+                    HorasTrabajadas = TotalHoras
 
 
                 };
-                
+
 
 
                 return nomina;
@@ -320,12 +291,12 @@ namespace RinkuWeb.Controllers
         {
             try
             {
-                using (RinkuContext db=new RinkuContext())
+                using (RinkuContext db = new RinkuContext())
                 {
                     var tabulador = db.TipoEmpleados.Where(x => x.CvTipoEmpleado == cvtipo).First().TabuladorHora;
                     return (decimal)tabulador;
                 }
-                    
+
             }
             catch (Exception ex)
             {
@@ -337,7 +308,7 @@ namespace RinkuWeb.Controllers
         {
             try
             {
-                if (sueldoBruto<=10000)
+                if (sueldoBruto <= 10000)
                 {
                     var retencion = (double)sueldoBruto * 0.09;
                     return (decimal)retencion;
@@ -365,33 +336,36 @@ namespace RinkuWeb.Controllers
                                                 from mov in db.Movimientos
                                                 from nom in db.Nominas
                                                 from per in db.Periodos
+                                                from tip in db.TipoEmpleados
                                                 where nom.CvMovimiento == mov.CvMovimiento
+                                                && tip.CvTipoEmpleado == mov.CvTipoEmpleado
                                                 && mov.CvEmpleado == emp.CvEmpleado
                                                 && nom.CvPeriodo == per.CvPeriodo
-              
+
                                                 orderby per.NumMesPeriodo
 
                                                 select new QueryClass
                                                 {
-                                                    numEmpleado=emp.NumeroEmpleado,
-                                                    nombre=emp.Nombre,
-                                                    periodo=per.Descripcion,
-                                                   
-                                                    bonotipoempleado= (decimal)nom.BonoPuesto,
-                                                    bonoentregas= (decimal)nom.BonoEntregas,
-                                                    horastrabajadas= (decimal)nom.HorasTrabajadas,
-                                                    vales= (decimal)nom.ValesDespensa,
-                                                    sueldobruto= (decimal)nom.SueldoBruto,
-                                                    sueldonet= (decimal)nom.SueldoNeto,
-                                                    reteciones= (decimal)nom.Retenciones,
-                                                    
-                                                    
+                                                    cvNomina = nom.CvNomina,
+                                                    numEmpleado = emp.NumeroEmpleado,
+                                                    nombre = emp.Nombre,
+                                                    periodo = per.Descripcion,
+                                                    puesto = tip.NombreTipo,
+                                                    bonotipoempleado = (decimal)nom.BonoPuesto,
+                                                    bonoentregas = (decimal)nom.BonoEntregas,
+                                                    horastrabajadas = (decimal)nom.HorasTrabajadas,
+                                                    vales = (decimal)nom.ValesDespensa,
+                                                    sueldobruto = (decimal)nom.SueldoBruto,
+                                                    sueldonet = (decimal)nom.SueldoNeto,
+                                                    reteciones = (decimal)nom.Retenciones,
+
+
                                                 }
                                               ).ToList();
                     return queries;
                 }
 
-               
+
             }
             catch (Exception ex)
             {
@@ -399,6 +373,29 @@ namespace RinkuWeb.Controllers
             }
         }
 
+
+        [HttpGet]
+        [Route("Api/SetRemoveMovimiento/{cv}")]
+        public int SetRemoveMovimiento(int cv)
+        {
+            try
+            {
+                using (RinkuContext db = new RinkuContext())
+                {
+                    var movimiento = db.Nominas.Where(x => x.CvNomina == cv).First().CvMovimiento;
+                    db.Nominas.RemoveRange(db.Nominas.Where(x => x.CvNomina == cv));
+                    db.SaveChanges();
+                    db.Movimientos.RemoveRange(db.Movimientos.Where(x => x.CvMovimiento == movimiento));
+                    db.SaveChanges();
+                    return 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+
+        }
 
     }
 }

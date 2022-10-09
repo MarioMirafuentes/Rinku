@@ -34,13 +34,13 @@ export class FormEmpleadosComponent implements OnInit {
   SetSaveEmpleado() {
     this.empleado = this.FormEmpleado.value;
     this.rinkuService.SetSaveEmpleado(this.empleado).subscribe(res => {
-   
-if (Number(res)==1) {
-  window.alert("El empleado fue agreagado correctamente");
 
-}else{
-  window.alert("El empleado no se agrego")
-}
+      if (Number(res) == 1) {
+        window.alert("El empleado fue agreagado correctamente");
+
+      } else {
+        window.alert("El empleado no se agrego")
+      }
 
     });
 
@@ -48,13 +48,13 @@ if (Number(res)==1) {
     this.FormEmpleado.reset()
   }
   GetAllEmpleado() {
-    
+
     this.ListEmpleados = null;
     this.rinkuService.GetAllEmpleado().subscribe(res => { this.ListEmpleados = res });
   }
 
   onSelectionChanged(cvEmpleado) {
-   
+
 
     this.rinkuService.GetEmpleado(Number(cvEmpleado)).subscribe(res => {
       this.FormEmpleado.controls["Nombre"].setValue(res.nombre)
@@ -72,16 +72,16 @@ if (Number(res)==1) {
 
     })
   }
-
   SetDelEmpleado(num) {
 
-    this.rinkuService.SetRemoveEmpleado(num).subscribe(res => {
-      if (res > 0) {
-        window.alert("Se elimino el registro.");
-      }
+    if (window.confirm("Desea eliminar el registo?")) {
+      this.rinkuService.SetRemoveEmpleado(Number(num)).subscribe(res => {
+        if (res > 0) { window.alert("El registro fue eliminado"); this.GetAllEmpleado(); }
+        else { window.alert("El registro no se pudo eliminar") }
 
-    })
-    this.GetAllEmpleado();
+      })
+    }
+
   }
 }
 

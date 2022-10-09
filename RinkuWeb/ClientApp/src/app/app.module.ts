@@ -7,8 +7,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';;
+
 import { FormEmpleadosComponent } from './modules/form-empleados/form-empleados.component'
 
 ////////
@@ -25,8 +24,7 @@ import { FormReportComponent } from './modules/form-report/form-report.component
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
+   
     FormEmpleadosComponent,
     FormMovimientosComponent
 ,
@@ -40,8 +38,7 @@ import { FormReportComponent } from './modules/form-report/form-report.component
     AgGridModule.withComponents([]),
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
+    
       {path:'FormEmpleado',component:FormEmpleadosComponent},
       {path:'FormMovimientos',component:FormMovimientosComponent},
       {path:'FormReport',component:FormReportComponent},
